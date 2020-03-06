@@ -6,7 +6,9 @@ import org.junit.Test
 class MyLibraryTest {
     @Test
     fun testMyLanguage() {
-        assertEquals("Kotlin", MyLibrary().kotlinLanguage().name)
-        assertEquals(10, MyLibrary().kotlinLanguage().hotness)
+        val lib = MyLibrary()
+        assertEquals("Kotlin", lib.kotlinLanguage().name)
+        assertEquals(10, lib.kotlinLanguage().hotness)
+        assertEquals("OK", lib.start())
     }
 }

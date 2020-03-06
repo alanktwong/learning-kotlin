@@ -13,4 +13,6 @@ class MyLibrary {
      * @return data relating to the Kotlin {@code Language}.
      */
     fun kotlinLanguage() = Language("Kotlin", 10)
+
+    fun start(): String = "OK"
 }
