@@ -1,5 +1,7 @@
 package org.awong
 
+import java.util.*
+
 // https://play.kotlinlang.org/koans/Introduction/Named%20arguments/Task.kt
 fun joinOptions(options: Collection<String>) = options.joinToString(
         prefix = "[",
@@ -71,3 +73,14 @@ fun Pair<Int, Int>.r(): RationalNumber = RationalNumber(first, second)
 
 data class RationalNumber(val numerator: Int, val denominator: Int)
 
+// https://play.kotlinlang.org/koans/Introduction/Object%20expressions/Task.kt
+// https://play.kotlinlang.org/koans/Introduction/SAM%20conversions/Task.kt
+fun getList(): List<Int> {
+    val arrayList = arrayListOf(1, 5, 2)
+    val comparator = object: Comparator<Int> {
+        override fun compare(thiz: Int, that: Int) = that-thiz
+    }
+    println("Sorting list in descending order")
+    Collections.sort(arrayList, comparator)
+    return arrayList
+}
