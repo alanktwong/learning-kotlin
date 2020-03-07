@@ -131,14 +131,17 @@ class DateRange(override val start: MyDate, override val endInclusive: MyDate): 
 
 enum class  TimeInterval {
     DAY,
+    WEEK,
     MONTH,
     YEAR
 }
+
 
 fun MyDate.addTimeIntervals(timeInterval: TimeInterval, number: Long): MyDate {
     val localDate = LocalDate.of(year, month, dayOfMonth)
     val newLocalDate = when(timeInterval) {
         TimeInterval.DAY -> localDate.plusDays(number)
+        TimeInterval.WEEK -> localDate.plusWeeks(number)
         TimeInterval.MONTH -> localDate.plusMonths(number)
         TimeInterval.YEAR -> localDate.plusYears(number)
     }
@@ -160,4 +163,18 @@ class DateIterator(val dateRange: DateRange) : Iterator<MyDate> {
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
     return date in first..last
 }
+
+// https://play.kotlinlang.org/koans/Conventions/Operators%20overloading/Task.kt
+operator fun MyDate.plus(interval: TimeInterval) = addTimeIntervals(interval, 1)
+
+fun task1(today: MyDate): MyDate {
+    return today + TimeInterval.YEAR + TimeInterval.WEEK
+}
+
+class RepeatedTimeInterval(val timeInterval: TimeInterval, val number: Long)
+operator fun TimeInterval.times(number: Long) = RepeatedTimeInterval(this, number)
+
+operator fun MyDate.plus(timeIntervals: RepeatedTimeInterval) = addTimeIntervals(timeIntervals.timeInterval, timeIntervals.number)
+
+fun task2(today: MyDate): MyDate = today + TimeInterval.YEAR * 2 + TimeInterval.WEEK * 3 + TimeInterval.DAY * 5
 
