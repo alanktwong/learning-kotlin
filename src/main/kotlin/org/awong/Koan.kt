@@ -90,26 +90,26 @@ fun extendList(): List<Int> {
 
 // https://play.kotlinlang.org/koans/Conventions/Comparison/Task.kt
 
-data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
-    override fun compareTo(other: MyDate): Int {
+data class YourDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<YourDate> {
+    override fun compareTo(other: YourDate): Int {
         val date = LocalDate.of(this.year, this.month, this.dayOfMonth)
         val otherDate = LocalDate.of(other.year, other.month, other.dayOfMonth)
         return date.compareTo(otherDate)
     }
 }
 
-fun compare(date1: MyDate, date2: MyDate) = date1 < date2
+fun compare(date1: YourDate, date2: YourDate) = date1 < date2
 
-data class YourDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<YourDate> {
+data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
 
-    override fun compareTo(other: YourDate) = when {
+    override fun compareTo(other: MyDate) = when {
         year != other.year -> year - other.year
         month != other.month -> month - other.month
         else -> dayOfMonth - other.dayOfMonth
     }
 }
 
-fun compare(date1: YourDate, date2: YourDate) = date1 < date2
+fun compare(date1: MyDate, date2: MyDate) = date1 < date2
 
 // https://play.kotlinlang.org/koans/Conventions/In%20range/Task.kt
 class OldDateRange(val start: MyDate, val endInclusive: MyDate) {
@@ -121,10 +121,43 @@ fun checkInOldRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
 }
 
 // https://play.kotlinlang.org/koans/Conventions/Range%20to/Task.kt
+// https://play.kotlinlang.org/koans/Conventions/For%20loop/Task.kt
 operator fun MyDate.rangeTo(other: MyDate) = DateRange(this, other)
 
-class DateRange(override val start: MyDate, override val endInclusive: MyDate): ClosedRange<MyDate>
 
+class DateRange(override val start: MyDate, override val endInclusive: MyDate): ClosedRange<MyDate>, Iterable<MyDate> {
+    override fun iterator(): Iterator<MyDate> = DateIterator(this)
+}
+
+enum class  TimeInterval {
+    DAY,
+    MONTH,
+    YEAR
+}
+
+fun MyDate.addTimeIntervals(timeInterval: TimeInterval, number: Long): MyDate {
+    val localDate = LocalDate.of(year, month, dayOfMonth)
+    val newLocalDate = when(timeInterval) {
+        TimeInterval.DAY -> localDate.plusDays(number)
+        TimeInterval.MONTH -> localDate.plusMonths(number)
+        TimeInterval.YEAR -> localDate.plusYears(number)
+    }
+    return MyDate(newLocalDate.year, newLocalDate.monthValue, newLocalDate.dayOfMonth)
+}
+
+fun MyDate.nextDay() = addTimeIntervals(TimeInterval.DAY, 1)
+
+
+
+class DateIterator(val dateRange:DateRange) : Iterator<MyDate> {
+    var current: MyDate = dateRange.start
+    override fun next(): MyDate {
+        val result = current
+        current = current.nextDay()
+        return result
+    }
+    override fun hasNext(): Boolean = current <= dateRange.end
+}
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
     return date in first..last
 }
