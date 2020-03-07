@@ -110,3 +110,22 @@ data class YourDate(val year: Int, val month: Int, val dayOfMonth: Int) : Compar
 }
 
 fun compare(date1: YourDate, date2: YourDate) = date1 < date2
+
+// https://play.kotlinlang.org/koans/Conventions/In%20range/Task.kt
+class OldDateRange(val start: MyDate, val endInclusive: MyDate) {
+    operator fun contains(other: MyDate): Boolean = start <= other && other <= endInclusive
+}
+
+fun checkInOldRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
+    return date in OldDateRange(first, last)
+}
+
+// https://play.kotlinlang.org/koans/Conventions/Range%20to/Task.kt
+operator fun MyDate.rangeTo(other: MyDate) = DateRange(this, other)
+
+class DateRange(override val start: MyDate, override val endInclusive: MyDate): ClosedRange<MyDate>
+
+fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
+    return date in first..last
+}
+
