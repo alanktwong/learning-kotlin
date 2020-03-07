@@ -2,6 +2,7 @@ package org.awong
 
 import java.util.*
 import kotlin.collections.ArrayList
+import java.time.*
 
 // https://play.kotlinlang.org/koans/Introduction/Named%20arguments/Task.kt
 fun joinOptions(options: Collection<String>) = options.joinToString(
@@ -86,3 +87,26 @@ fun getList(): List<Int> {
 fun extendList(): List<Int> {
     return arrayListOf(1, 5, 2).sortedDescending()
 }
+
+// https://play.kotlinlang.org/koans/Conventions/Comparison/Task.kt
+
+data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<MyDate> {
+    override fun compareTo(other: MyDate): Int {
+        val date = LocalDate.of(this.year, this.month, this.dayOfMonth)
+        val otherDate = LocalDate.of(other.year, other.month, other.dayOfMonth)
+        return date.compareTo(otherDate)
+    }
+}
+
+fun compare(date1: MyDate, date2: MyDate) = date1 < date2
+
+data class YourDate(val year: Int, val month: Int, val dayOfMonth: Int) : Comparable<YourDate> {
+
+    override fun compareTo(other: YourDate) = when {
+        year != other.year -> year - other.year
+        month != other.month -> month - other.month
+        else -> dayOfMonth - other.dayOfMonth
+    }
+}
+
+fun compare(date1: YourDate, date2: YourDate) = date1 < date2
