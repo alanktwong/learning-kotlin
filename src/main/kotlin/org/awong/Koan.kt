@@ -77,10 +77,7 @@ data class RationalNumber(val numerator: Int, val denominator: Int)
 // https://play.kotlinlang.org/koans/Introduction/SAM%20conversions/Task.kt
 fun getList(): List<Int> {
     val arrayList = arrayListOf(1, 5, 2)
-    val comparator = object: Comparator<Int> {
-        override fun compare(thiz: Int, that: Int) = that-thiz
-    }
     println("Sorting list in descending order")
-    Collections.sort(arrayList, comparator)
+    Collections.sort(arrayList, { thiz, that -> that-thiz })
     return arrayList
 }
