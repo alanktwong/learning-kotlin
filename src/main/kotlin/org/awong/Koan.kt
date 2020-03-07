@@ -1,6 +1,7 @@
 package org.awong
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 // https://play.kotlinlang.org/koans/Introduction/Named%20arguments/Task.kt
 fun joinOptions(options: Collection<String>) = options.joinToString(
@@ -80,4 +81,8 @@ fun getList(): List<Int> {
     println("Sorting list in descending order")
     Collections.sort(arrayList, { thiz, that -> that-thiz })
     return arrayList
+}
+
+fun extendList(): List<Int> {
+    return arrayListOf(1, 5, 2).sortedDescending()
 }
