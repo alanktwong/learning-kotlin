@@ -147,17 +147,16 @@ fun MyDate.addTimeIntervals(timeInterval: TimeInterval, number: Long): MyDate {
 
 fun MyDate.nextDay() = addTimeIntervals(TimeInterval.DAY, 1)
 
-
-
-class DateIterator(val dateRange:DateRange) : Iterator<MyDate> {
+class DateIterator(val dateRange: DateRange) : Iterator<MyDate> {
     var current: MyDate = dateRange.start
     override fun next(): MyDate {
         val result = current
         current = current.nextDay()
         return result
     }
-    override fun hasNext(): Boolean = current <= dateRange.end
+    override fun hasNext(): Boolean = current <= dateRange.endInclusive
 }
+
 fun checkInRange(date: MyDate, first: MyDate, last: MyDate): Boolean {
     return date in first..last
 }
