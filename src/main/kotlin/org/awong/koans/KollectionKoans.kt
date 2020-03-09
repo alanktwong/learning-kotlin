@@ -114,9 +114,9 @@ fun Customer.getOrderedProductsList(): List<Product> {
 
 fun doSomethingStrangeWithCollection(collection: Collection<String>): Collection<String>? {
 
-    val groupsByLength: Map<String, List<String>> = collection.groupBy { s -> TODO() }
+    val groupsByLength = collection.groupBy { it.length }
 
-    val maximumSizeOfGroup: Int = groupsByLength.values.map { group -> TODO() }.max()
+    val maximumSizeOfGroup = groupsByLength.values.map { group -> group.size }.max()
 
-    return groupsByLength.values.firstOrNull { group -> TODO() }
+    return groupsByLength.values.firstOrNull { group -> group.size == maximumSizeOfGroup }
 }
