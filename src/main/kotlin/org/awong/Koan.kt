@@ -178,3 +178,25 @@ operator fun MyDate.plus(timeIntervals: RepeatedTimeInterval) = addTimeIntervals
 
 fun task2(today: MyDate): MyDate = today + TimeInterval.YEAR * 2 + TimeInterval.WEEK * 3 + TimeInterval.DAY * 5
 
+// https://play.kotlinlang.org/koans/Conventions/Destructuring%20declarations/Task.kt
+
+fun isLeapDay(date: MyDate): Boolean {
+
+    val (year, month, dayOfMonth) = date
+
+    // 29 February of a leap year
+    return year % 4 == 0 && month == 2 && dayOfMonth == 29
+}
+
+// https://play.kotlinlang.org/koans/Conventions/Invoke/Task.kt
+
+class Invokable {
+    var numberOfInvocations: Int = 0
+        private set
+    operator fun invoke(): Invokable {
+        numberOfInvocations = numberOfInvocations + 1
+        return this
+    }
+}
+
+fun invokeTwice(invokable: Invokable) = invokable()()
