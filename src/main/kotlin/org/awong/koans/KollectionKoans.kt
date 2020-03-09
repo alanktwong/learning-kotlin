@@ -106,7 +106,17 @@ fun Customer.getMostExpensiveDeliveredProduct(): Product? {
 // Note: a customer may order the same product for several times.
 fun Shop.getNumberOfTimesProductWasOrdered(product: Product): Int = customers.flatMap { it.getOrderedProductsList() }.count { it == product }
 
-
 fun Customer.getOrderedProductsList(): List<Product> {
     return orders.flatMap { it.products }
+}
+
+// https://play.kotlinlang.org/koans/Collections/Get%20used%20to%20new%20style/Task.kt
+
+fun doSomethingStrangeWithCollection(collection: Collection<String>): Collection<String>? {
+
+    val groupsByLength: Map<String, List<String>> = collection.groupBy { s -> TODO() }
+
+    val maximumSizeOfGroup: Int = groupsByLength.values.map { group -> TODO() }.max()
+
+    return groupsByLength.values.firstOrNull { group -> TODO() }
 }
