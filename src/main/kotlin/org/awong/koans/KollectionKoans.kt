@@ -81,3 +81,32 @@ fun Customer.getNumberOfDeliveredOrders(): Int = orders.count { it.isDelivered }
 fun Shop.getCustomersWithMoreUndeliveredOrdersThanDelivered(): Set<Customer> = customers.partition { customer ->
     customer.getNumberOfUndeliveredOrders() > customer.getNumberOfDeliveredOrders()
 }.first.toSet()
+
+// https://play.kotlinlang.org/koans/Collections/Fold/Task.kt
+
+// Return the set of products that were ordered by every customer
+fun Shop.getSetOfProductsOrderedByEveryCustomer(): Set<Product> {
+    val allProducts = customers.flatMap { it.orders.flatMap { it.products }}.toSet()
+    return customers.fold(allProducts, {
+        orderedByAll, customer ->
+        orderedByAll.intersect(customer.orders.flatMap { it.products }.toSet())
+    })
+}
+
+// https://play.kotlinlang.org/koans/Collections/Compound%20tasks/Task.kt
+
+// Return the most expensive product among all delivered products
+// (use the Order.isDelivered flag)
+fun Customer.getMostExpensiveDeliveredProduct(): Product? {
+    val deliveredProducts = orders.filter { it.isDelivered }.flatMap { it.products }
+    return deliveredProducts.maxBy { it.price }
+}
+
+// Return how many times the given product was ordered.
+// Note: a customer may order the same product for several times.
+fun Shop.getNumberOfTimesProductWasOrdered(product: Product): Int = customers.flatMap { it.getOrderedProductsList() }.count { it == product }
+
+
+fun Customer.getOrderedProductsList(): List<Product> {
+    return orders.flatMap { it.products }
+}
