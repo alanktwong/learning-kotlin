@@ -48,7 +48,30 @@ val Shop.allOrderedProducts: Set<Product> get() {
 // https://play.kotlinlang.org/koans/Collections/Max%20min/Task.kt
 
 // Return a customer whose order count is the highest among all customers
-fun Shop.getCustomerWithMaximumNumberOfOrders(): Customer? = TODO()
+fun Shop.getCustomerWithMaximumNumberOfOrders(): Customer? = customers.maxBy { customer -> customer.orders.size }
 
 // Return the most expensive product which has been ordered
-fun Customer.getMostExpensiveOrderedProduct(): Product? = TODO()
+fun Customer.getMostExpensiveOrderedProduct(): Product? = orders.flatMap { order -> order.products }
+        .maxBy { product -> product.price }
+
+// https://play.kotlinlang.org/koans/Collections/Sort/Task.kt
+
+// Return a list of customers, sorted by the ascending number of orders they made
+fun Shop.getCustomersSortedByNumberOfOrders(): List<Customer> = customers.sortedBy { customer -> customer.orders.size }
+
+// https://play.kotlinlang.org/koans/Collections/Sum/Task.kt
+
+// Return the sum of prices of all products that a customer has ordered.
+// Note: the customer may order the same product for several times.
+fun Customer.getTotalOrderPrice(): Double = orders.flatMap { order -> order.products }
+        .sumByDouble { product -> product.price }
+
+// https://play.kotlinlang.org/koans/Collections/GroupBy/Task.kt
+
+// Return a map of the customers living in each city
+fun Shop.groupCustomersByCity(): Map<City, List<Customer>> = customers.groupBy( { customer -> customer.city })
+
+// https://play.kotlinlang.org/koans/Collections/Partition/Task.kt
+
+// Return customers who have more undelivered orders than delivered
+fun Shop.getCustomersWithMoreUndeliveredOrdersThanDelivered(): Set<Customer> = TODO()
