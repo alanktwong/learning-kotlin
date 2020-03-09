@@ -1,4 +1,4 @@
-package org.awong
+package org.awong.koans
 
 // products
 val idea = Product("IntelliJ IDEA Ultimate", 199.0)
@@ -56,9 +56,9 @@ val shop = shop("jb test shop",
         customer(riku, tokyo,
                 order(phpStorm, phpStorm),
                 order(phpStorm))
-        )
+)
 
-val customers: Map<String, Customer> = shop.customers.fold(hashMapOf<String,Customer>(), { map, customer ->
+val customers: Map<String, Customer> = shop.customers.fold(hashMapOf<String, Customer>(), { map, customer ->
     map[customer.name] = customer
     map
 })
@@ -68,7 +68,7 @@ val setOfOrderedProducts = setOf(idea, reSharper, dotTrace, dotMemory, phpStorm,
 val sortedCustomers = listOf(cooper, nathan, bajram, asuka, lucas, riku, reka)
 
 val groupedCities = mapOf(
-        canberra to listOf(lucas,cooper),
+        canberra to listOf(lucas, cooper),
         vancouver to listOf(nathan),
         budapest to listOf(reka),
         tokyo to listOf(asuka, riku)

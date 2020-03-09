@@ -1,4 +1,4 @@
-package org.awong
+package org.awong.koans
 
 data class Shop(val name: String, val customers: List<Customer>)
 

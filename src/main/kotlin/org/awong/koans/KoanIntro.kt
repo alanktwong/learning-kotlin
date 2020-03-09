@@ -1,4 +1,4 @@
-package org.awong
+package org.awong.koans
 
 import java.util.*
 
@@ -27,7 +27,7 @@ fun containsEven(collection: Collection<Int>): Boolean = collection.any {
 
 val month = "(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
 
-fun getPattern(): String = """\d{2} ${month} \d{4}"""
+fun getPattern(): String = """\d{2} $month \d{4}"""
 
 // https://play.kotlinlang.org/koans/Introduction/Data%20classes/Task.kt
 data class Person(val name: String, val age: Int)

@@ -1,4 +1,4 @@
-package org.awong
+package org.awong.koans
 
 import java.time.LocalDate
 
