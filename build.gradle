@@ -10,7 +10,16 @@ buildscript {
     }
 }
 
+plugins {
+    id "java"
+    id "maven-publish"
+    id "idea"
+}
 apply plugin: 'kotlin'
+
+sourceCompatibility=11
+targetCompatibility=11
+assert System.properties["java.specification.version"] == "1.8" || "11" || "12" || "13"
 
 repositories {
     mavenCentral()
@@ -22,6 +31,12 @@ version = '0.0.1-SNAPSHOT'
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
+    testImplementation "io.qala.datagen:qala-datagen:${datagen_version}"
+    testImplementation "io.qala.datagen:qala-datagen-java8types:${datagen_version}"
     testCompile "junit:junit:${junit_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
+}
+
+wrapper {
+    gradleVersion = "5.2.1"
 }
