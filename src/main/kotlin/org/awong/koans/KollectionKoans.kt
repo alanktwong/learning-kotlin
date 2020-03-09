@@ -74,4 +74,10 @@ fun Shop.groupCustomersByCity(): Map<City, List<Customer>> = customers.groupBy( 
 // https://play.kotlinlang.org/koans/Collections/Partition/Task.kt
 
 // Return customers who have more undelivered orders than delivered
-fun Shop.getCustomersWithMoreUndeliveredOrdersThanDelivered(): Set<Customer> = TODO()
+fun Customer.getNumberOfUndeliveredOrders(): Int = orders.count { !it.isDelivered }
+
+fun Customer.getNumberOfDeliveredOrders(): Int = orders.count { it.isDelivered }
+
+fun Shop.getCustomersWithMoreUndeliveredOrdersThanDelivered(): Set<Customer> = customers.partition { customer ->
+    customer.getNumberOfUndeliveredOrders() > customer.getNumberOfDeliveredOrders()
+}.first.toSet()
