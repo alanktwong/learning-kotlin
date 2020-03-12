@@ -1,12 +1,7 @@
 package org.awong.koans
 
-import java.time.Instant
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
-import kotlin.properties.Delegates
 
 
 // https://play.kotlinlang.org/koans/Properties/Properties/Task.kt
@@ -61,16 +56,6 @@ class LazyProperty(val initializer: () -> Int) {
  *
  * Use the extension functions MyDate.toMillis() and Long.toDate(), defined at MyDate.kt
  */
-fun MyDate.toMillis(): Long {
-    return LocalDateTime.of(year, month, dayOfMonth, 0, 0).toInstant(ZoneOffset.UTC).epochSecond
-}
-
-fun Long.toDate(): MyDate {
-    val localDate = LocalDate.ofInstant(Instant.ofEpochMilli(this), ZoneOffset.UTC)
-
-    return MyDate(localDate.year, localDate.monthValue, localDate.dayOfMonth)
-}
-
 class D {
     var date: MyDate by EffectiveDate()
 }
