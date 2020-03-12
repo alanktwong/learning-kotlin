@@ -26,10 +26,13 @@ class PropertyExample() {
  *  Do not use delegated properties!
  */
 class LazyProperty(val initializer: () -> Int) {
-    /* TODO */
+    private var _back: Int? = null
     val lazy: Int
         get() {
-            TODO()
+            if (_back == null) {
+                _back = initializer.invoke()
+            }
+            return _back ?: throw AssertionError("Set to null by another thread")
         }
 }
 
