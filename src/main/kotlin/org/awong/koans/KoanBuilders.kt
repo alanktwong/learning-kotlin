@@ -1,6 +1,5 @@
 package org.awong.koans
 
-import java.util.HashMap
 import kotlin.collections.HashMap
 
 // https://play.kotlinlang.org/koans/Builders/Function%20literals%20with%20receiver/Task.kt
@@ -61,6 +60,34 @@ fun usage(): Map<Int, String> {
 
 // https://play.kotlinlang.org/koans/Builders/The%20function%20apply/Task.kt
 
-fun <T> T.myApply(f: T.() -> Unit): T { TODO() }
+fun <T> T.myApply(f: T.() -> Unit): T {
+    f()
+    return this
+}
 
+fun createString(): String {
+    return StringBuilder().myApply {
+        append("Numbers: ")
+        for (i in 1..10) {
+            append(i)
+        }
+    }.toString()
+}
+
+fun createMap(): Map<Int, String> {
+    return hashMapOf<Int, String>().myApply {
+        put(0, "0")
+        for (i in 1..10) {
+            put(i, "$i")
+        }
+    }
+}
 // https://play.kotlinlang.org/koans/Builders/The%20function%20apply/Task.kt
+
+enum class Answer {
+    a, b, c
+}
+
+val answers = mapOf<Int, Answer?>(
+        1 to Answer.c, 2 to null, 3 to null, 4 to null
+)
