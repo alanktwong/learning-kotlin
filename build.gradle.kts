@@ -1,4 +1,7 @@
 import org.awong.Config.Libs
+import org.awong.junitProject
+import org.awong.kotlinProject
+import org.awong.spekProject
 
 plugins {
     java
@@ -33,25 +36,9 @@ tasks {
 }
 
 dependencies {
-    compile(Libs.kotlinStdlib)
-    implementation(Libs.kotlinStdlibJdk8)
-    implementation(Libs.kotlinReflect)
-    testCompile(Libs.kotlinJunit)
-
-    testImplementation(Libs.qalaDatagen)
-    testImplementation(Libs.qalaDatagenJava8)
-
-    // spek requires kotlin-reflect, can be omitted if already in the classpath
-    testImplementation(Libs.spek2)
-    testRuntimeOnly(Libs.spek2Runner)
-
-    testImplementation(Libs.assertJ)
-    testImplementation(Libs.mockito)
-
-    testCompile(Libs.junitJupiterApi)
-    testCompile(Libs.junitJupiterParams)
-    testRuntime(Libs.junitJupiterEngine)
-    testRuntimeOnly(Libs.kotlinReflect)
+    junitProject()
+    kotlinProject()
+    spekProject()
 }
 
 tasks.wrapper {
