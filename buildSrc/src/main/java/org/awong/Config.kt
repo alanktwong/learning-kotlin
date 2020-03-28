@@ -1,9 +1,5 @@
 package org.awong
 
-import org.gradle.api.Project
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.kotlin
-
 object Config {
     object Versions {
         val kotlin= "1.3.61"
@@ -39,43 +35,5 @@ object Config {
         val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
         val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
         val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
-    }
-}
-
-fun Project.kotlinProject() {
-    dependencies {
-        "compile"(kotlin("stdlib"))
-        "implementation"(Config.Libs.kotlinStdlibJdk8)
-        "implementation"(Config.Libs.kotlinReflect)
-        "testCompile"(Config.Libs.kotlinJunit)
-
-        "testRuntimeOnly"(Config.Libs.kotlinReflect)
-    }
-}
-
-fun Project.junitProject() {
-    dependencies {
-        "testImplementation"(Config.Libs.assertJ)
-        "testImplementation"(Config.Libs.mockito)
-
-        "testImplementation"(Config.Libs.qalaDatagen)
-        "testImplementation"(Config.Libs.qalaDatagenJava8)
-
-        "testCompile"(Config.Libs.junitJupiterApi)
-        "testCompile"(Config.Libs.junitJupiterParams)
-        "testRuntime"(Config.Libs.junitJupiterEngine)
-    }
-}
-
-fun Project.spekProject() {
-    dependencies {
-        // spek requires kotlin-reflect, can be omitted if already in the classpath
-        "testImplementation"(Config.Libs.spek2)
-        "testRuntimeOnly"(Config.Libs.spek2Runner)
-    }
-}
-fun Project.kotestProject() {
-    dependencies {
-        "testImplementation"(Config.Libs.kotest)
     }
 }

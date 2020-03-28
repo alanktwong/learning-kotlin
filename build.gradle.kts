@@ -1,21 +1,22 @@
-import org.awong.Config.Libs
 import org.awong.junitProject
 import org.awong.kotlinProject
 import org.awong.spekProject
+import kotlin.collections.listOf
 
 plugins {
     java
     `java-library`
     `maven-publish`
     idea
+    greeter
     kotlin("jvm") version "1.3.61"
 }
 
 java {
+    assert(listOf("1.8", "11", "12", "13").contains(System.getProperty("java.specification.version")))
+
     sourceCompatibility=JavaVersion.VERSION_11
     targetCompatibility=JavaVersion.VERSION_11
-
-    // assert(kotlin.collections.listOf("1.8" , "11", "12", "13") System.getProperty("java.specification.version"))
 }
 
 repositories {
