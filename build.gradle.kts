@@ -1,3 +1,4 @@
+import org.awong.groovyProject
 import org.awong.junitProject
 import org.awong.kotlinProject
 import org.awong.spekProject
@@ -9,6 +10,7 @@ plugins {
     `maven-publish`
     idea
     greeter
+    groovy
     kotlin("jvm") version "1.3.61"
 }
 
@@ -34,14 +36,14 @@ tasks {
             events("FAILED", "SKIPPED")
         }
     }
+    wrapper {
+        gradleVersion = "6.3"
+    }
 }
 
 dependencies {
     junitProject()
     kotlinProject()
     spekProject()
-}
-
-tasks.wrapper {
-    gradleVersion = "6.3"
+    groovyProject()
 }
