@@ -3,6 +3,7 @@ package org.awong
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.kotlin
+import kotlin.collections.mapOf
 
 import org.awong.Config.Libs
 
@@ -42,5 +43,14 @@ fun Project.spekProject() {
 fun Project.kotestProject() {
     dependencies {
         "testImplementation"(Libs.kotest)
+    }
+}
+
+fun Project.groovyProject() {
+    dependencies {
+        "compile"(Libs.groovy)
+        "testCompile"(Libs.spock) {
+            exclude(mapOf("module" to "groovy-all"))
+        }
     }
 }

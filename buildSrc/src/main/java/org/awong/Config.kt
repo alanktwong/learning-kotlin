@@ -13,6 +13,9 @@ object Config {
         val slf4jVersion="1.7.21"
         val log4jVersion="1.2.16"
         val logbackVersion="1.1.2"
+
+        val groovy = "2.5.9"
+        val spock = "1.3-groovy-2.5"
     }
 
     object Libs {
@@ -35,5 +38,8 @@ object Config {
         val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
         val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
         val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
+
+        val groovy = "org.codehaus.groovy:groovy:${Versions.groovy}"
+        val spock = "org.spockframework:spock-core:${Versions.spock}"
     }
 }
