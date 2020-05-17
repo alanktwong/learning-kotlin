@@ -12,6 +12,7 @@ fun Project.kotlinProject() {
         "compile"(kotlin("stdlib"))
         "implementation"(Libs.kotlinStdlibJdk8)
         "implementation"(Libs.kotlinReflect)
+        "implementation"(Libs.kotlinCoroutines)
         "testCompile"(Libs.kotlinJunit)
 
         "testRuntimeOnly"(Libs.kotlinReflect)
