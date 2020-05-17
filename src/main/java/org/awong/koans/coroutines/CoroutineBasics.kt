@@ -60,4 +60,13 @@ class CoroutineBasics {
         delay(1000L)
         println("World!")
     }
+
+    fun launchManyManyCoroutines() = runBlocking {
+        repeat(100_000) { // launch a lot of coroutines
+            launch {
+                delay(1000L)
+                print(".")
+            }
+        }
+    }
 }

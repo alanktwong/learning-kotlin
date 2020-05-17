@@ -37,4 +37,10 @@ class CoroutineBasicsTest {
         basics.suspending()
         assertTrue(true, "Ran coroutines with suspending function")
     }
+
+    @Test
+    fun testLaunchManyManyCoroutines () = runBlocking {
+        basics.launchManyManyCoroutines()
+        assertTrue(true, "Ran many many coroutines")
+    }
 }
