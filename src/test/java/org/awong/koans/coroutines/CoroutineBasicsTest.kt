@@ -32,4 +32,9 @@ class CoroutineBasicsTest {
         assertTrue(true, "Ran coroutines with multiple scopes")
     }
 
+    @Test
+    fun testSuspending() = runBlocking {
+        basics.suspending()
+        assertTrue(true, "Ran coroutines with suspending function")
+    }
 }
