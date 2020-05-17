@@ -9,9 +9,16 @@ class CoroutineBasicsTest {
     val basics = CoroutineBasics()
 
     @Test
-    fun testMySuspendingFunction() = runBlocking<Unit> {
+    fun testFirstCoroutine() = runBlocking<Unit> {
         // here we can use suspending functions using any assertion style that we like
         basics.firstCoroutine()
         assertTrue(true, "Ran 1st coroutine")
+    }
+
+    @Test
+    fun testJoinCoroutine() = runBlocking<Unit> {
+        // here we can use suspending functions using any assertion style that we like
+        basics.joinCoroutine()
+        assertTrue(true, "Ran join coroutine")
     }
 }
