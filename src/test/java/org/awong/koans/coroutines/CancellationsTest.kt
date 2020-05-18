@@ -8,9 +8,14 @@ class CancellationsTest {
     val cancellations = Cancellations()
 
     @Test
-    fun testFirstCoroutine() = runBlocking {
+    fun testCancelJob() = runBlocking {
         cancellations.cancelJob()
         assertTrue(true, "Cancel 1st coroutine")
     }
 
+    @Test
+    fun testCooperativeCancel() = runBlocking {
+        cancellations.cooperativeCancel()
+        assertTrue(true, "Cancel coroutine cooperatively")
+    }
 }
