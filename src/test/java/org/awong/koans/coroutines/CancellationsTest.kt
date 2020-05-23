@@ -18,4 +18,28 @@ class CancellationsTest {
         cancellations.cooperativeCancel()
         assertTrue(true, "Cancel coroutine cooperatively")
     }
+
+    @Test
+    fun testCancellable() = runBlocking {
+        cancellations.cancellableCoroutine()
+        assertTrue(true, "Cancel coroutine when it is cancellable")
+    }
+
+    @Test
+    fun testCloseFinally() = runBlocking {
+        cancellations.closeWithFinally()
+        assertTrue(true, "Cancel coroutine which closes with a finally")
+    }
+
+    @Test
+    fun testCloseFinallyAndSafely() = runBlocking {
+        cancellations.closeWithFinallySafe()
+        assertTrue(true, "Cancel coroutine which closes with a safe finally block")
+    }
+
+    @Test
+    fun testCloseWithTimeout() = runBlocking {
+        cancellations.closeWithTimeout()
+        assertTrue(true, "Cancel coroutine which times out")
+    }
 }
