@@ -4,6 +4,8 @@ import kotlinx.coroutines.*
 
 class Cancellations {
     fun cancelJob() = runBlocking {
+        println("START: cancel job")
+
         val job = launch {
             repeat(1000) { i ->
                 println("job: I'm sleeping $i ...")
@@ -18,6 +20,8 @@ class Cancellations {
     }
 
     fun cooperativeCancel() = runBlocking {
+        println("START: cancel job cooperatively")
+
         val startTime = System.currentTimeMillis()
         val job = launch(Dispatchers.Default) {
             var nextPrintTime = startTime
@@ -37,6 +41,8 @@ class Cancellations {
     }
 
     fun cancellableCoroutine() = runBlocking {
+        println("START: cancellable coroutines")
+
         val startTime = System.currentTimeMillis()
         val job = launch(Dispatchers.Default) {
             var nextPrintTime = startTime
@@ -56,6 +62,8 @@ class Cancellations {
     }
 
     fun closeWithFinally() = runBlocking {
+        println("START: close coroutines with finally")
+
         val job = launch {
             try {
                 repeat(1000) { i ->
@@ -73,6 +81,8 @@ class Cancellations {
     }
 
     fun closeWithFinallySafe() = runBlocking {
+        println("START: close coroutines with safe finally")
+
         val job = launch {
             try {
                 repeat(1000) { i ->
@@ -94,6 +104,8 @@ class Cancellations {
     }
 
     fun closeWithTimeout() = runBlocking {
+        println("START: close coroutines with timeouts")
+
         try {
             val result = withTimeoutOrNull(1300L) {
                 repeat(1000) { i ->

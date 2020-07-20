@@ -34,7 +34,7 @@ class CoroutineContext {
 
     fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
-    fun loggingCoroutineContext() = runBlocking<Unit> {
+    fun loggingCoroutineContext() = runBlocking {
         // Requires -Dkotlinx.coroutines.debug
         val a = async {
             log("I'm computing a piece of the answer")
@@ -64,8 +64,8 @@ class CoroutineContext {
         }
     }
 
-    fun childrenOfCoroutine() = runBlocking<Unit> {
-        // launch a coroutine to process some kind of incoming request
+    fun childrenOfCoroutine() = runBlocking {
+        log("START launch a coroutine to process some kind of incoming request")
         val request = launch {
             // it spawns two other jobs, one with GlobalScope
             GlobalScope.launch {
@@ -88,8 +88,8 @@ class CoroutineContext {
         log("main: Who has survived request cancellation?")
     }
 
-    fun parentCoroutine() = runBlocking<Unit> {
-        // launch a coroutine to process some kind of incoming request
+    fun parentCoroutine() = runBlocking {
+        log("START launch a coroutine to process some kind of incoming request")
         val request = launch {
             repeat(3) { i -> // launch a few children jobs
                 launch  {
@@ -125,7 +125,7 @@ class CoroutineContext {
         }
     }
 
-    fun runActivity() = runBlocking<Unit> {
+    fun runActivity() = runBlocking {
         val activity = Activity()
         log("run test function")
         activity.doSomething()

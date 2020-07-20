@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.*
 
 class AsyncFlow {
 
-    fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
+    private fun log(msg: String) = println("[${Thread.currentThread().name}] $msg")
 
     private fun simple(): Sequence<Int> = sequence { // sequence builder
         for (i in 1..3) {
@@ -16,6 +16,7 @@ class AsyncFlow {
     }
 
     fun computeSequentially() {
+        log("START: compute sequentially")
         simple().forEach { value -> println(value) }
     }
 
@@ -24,7 +25,8 @@ class AsyncFlow {
         return listOf(1, 2, 3)
     }
 
-    fun suspendComputeSequentially() = runBlocking<Unit> {
+    fun suspendComputeSequentially() = runBlocking {
+        log("START: compute sequentially with suspend")
         simpleUnblock().forEach { value -> log(value.toString()) }
     }
 
@@ -36,8 +38,8 @@ class AsyncFlow {
         }
     }
 
-    fun launchSimpleFlow() = runBlocking<Unit> {
-        // Launch a concurrent coroutine to check if the main thread is blocked
+    fun launchSimpleFlow() = runBlocking {
+        log("START: Launch a concurrent coroutine to check if the main thread is blocked")
         launch {
             for (k in 1..3) {
                 log("I'm not blocked $k")
@@ -56,7 +58,9 @@ class AsyncFlow {
         }
     }
 
-    fun launchColdFlow() = runBlocking<Unit> {
+    fun launchColdFlow() = runBlocking {
+        log("START: Launch a flow which is a cold stream")
+
         println("Calling simple function...")
         val flow = coldFlow()
         println("Calling collect...")

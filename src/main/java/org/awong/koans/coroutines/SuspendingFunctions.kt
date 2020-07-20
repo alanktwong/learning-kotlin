@@ -27,7 +27,8 @@ class SuspendingFunctions {
     private fun somethingUsefulTwoAsync() = GlobalScope.async {
         doSomethingUsefulTwo()
     }
-    fun composeTwoFunctionsSequentially() = runBlocking<Unit> {
+    fun composeTwoFunctionsSequentially() = runBlocking {
+        println("START compose 2 functions sequentially")
         val time = measureTimeMillis {
             val one = doSomethingUsefulOne()
             val two = doSomethingUsefulTwo()
@@ -36,7 +37,8 @@ class SuspendingFunctions {
         println("Completed in $time ms")
     }
 
-    fun composeTwoFunctionsAsync() = runBlocking<Unit> {
+    fun composeTwoFunctionsAsync() = runBlocking {
+        println("START compose 2 functions with async")
         val time = measureTimeMillis {
             val one = async { doSomethingUsefulOne() }
             val two = async { doSomethingUsefulTwo() }
@@ -45,7 +47,9 @@ class SuspendingFunctions {
         println("Completed in $time ms")
     }
 
-    fun composeTwoFunctionsAsyncLazily() = runBlocking<Unit> {
+    fun composeTwoFunctionsAsyncLazily() = runBlocking {
+        println("START compose 2 functions with async and start them lazily")
+
         val time = measureTimeMillis {
             val one = async(start = CoroutineStart.LAZY) {
                 doSomethingUsefulOne()
@@ -53,7 +57,7 @@ class SuspendingFunctions {
             val two = async(start = CoroutineStart.LAZY) {
                 doSomethingUsefulTwo()
             }
-            // some computation
+            println("Pretend to do some computation")
 
             // start the first one
             one.start()
@@ -65,8 +69,9 @@ class SuspendingFunctions {
     }
 
     // note that we don't have `runBlocking` to the right of `main` in this example
-    // Noe this-style is bad Kotlin practice
+    // N.B. this-style is bad Kotlin practice
     fun composeAsyncStyleFunctions() {
+        println("START compose 2 async-style functions")
         val time = measureTimeMillis {
             // we can initiate async actions outside of a coroutine
             val one = somethingUsefulOneAsync()
@@ -86,7 +91,9 @@ class SuspendingFunctions {
         one.await() + two.await()
     }
 
-    fun structuredConcurrency() = runBlocking<Unit> {
+    fun structuredConcurrency() = runBlocking {
+        println("START compose 2 coroutines using structured concurrency")
+
         val time = measureTimeMillis {
             println("The answer is ${concurrentSum()}")
         }
@@ -95,6 +102,7 @@ class SuspendingFunctions {
 
 
     fun structuredConcurrencyWithErrorHandling() = runBlocking<Unit> {
+        println("START compose 2 coroutines using structured concurrency and handle errors")
         try {
             failedConcurrentSum()
         } catch(e: ArithmeticException) {
@@ -103,16 +111,16 @@ class SuspendingFunctions {
     }
 
     private suspend fun failedConcurrentSum(): Int = coroutineScope {
-        val one = async<Int> {
+        val one = async {
             try {
                 delay(Long.MAX_VALUE) // Emulates very long computation
                 42
             } finally {
-                println("First child was cancelled")
+                println("1st child was cancelled")
             }
         }
         val two = async<Int> {
-            println("Second child throws an exception")
+            println("2nd child throws an exception")
             throw ArithmeticException()
         }
         one.await() + two.await()
