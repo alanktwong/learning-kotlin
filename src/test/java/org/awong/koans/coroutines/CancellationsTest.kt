@@ -5,7 +5,7 @@ import kotlin.test.assertTrue
 import org.junit.Test
 
 class CancellationsTest {
-    val cancellations = Cancellations()
+    private val cancellations = Cancellations()
 
     @Test
     fun testCancelJob() = runBlocking {

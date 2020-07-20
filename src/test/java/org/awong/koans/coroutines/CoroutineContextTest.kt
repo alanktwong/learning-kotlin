@@ -6,7 +6,7 @@ import kotlin.test.assertTrue
 
 class CoroutineContextTest {
 
-    val context = CoroutineContext()
+    private val context = CoroutineContext()
 
     @Test
     fun testLaunchCoroutines() = runBlocking {

@@ -6,7 +6,7 @@ import kotlin.test.assertTrue
 
 class CoroutineBasicsTest {
 
-    val basics = CoroutineBasics()
+    private val basics = CoroutineBasics()
 
     @Test
     fun testFirstCoroutine() = runBlocking {
