@@ -50,8 +50,8 @@ class Cancellations {
             }
         }
         delay(1300L) // delay a bit
-        println("main: I'm tired of waiting!")
-        job.cancelAndJoin() // cancels the job and waits for its completion
+        println("main: I'm tired of waiting! ... cancel job and wait forr its completion")
+        job.cancelAndJoin()
         println("main: Now I can quit.")
     }
 
@@ -83,7 +83,7 @@ class Cancellations {
                 withContext(NonCancellable) {
                     println("job: I'm running finally")
                     delay(1000L)
-                    println("job: And I've just delayed for 1 sec because I'm non-cancellable")
+                    println("job: And I've just delayed for 1 sec because the finally block is non-cancellable")
                 }
             }
         }
@@ -95,12 +95,14 @@ class Cancellations {
 
     fun closeWithTimeout() = runBlocking {
         try {
-            withTimeout(1300L) {
+            val result = withTimeoutOrNull(1300L) {
                 repeat(1000) { i ->
                     println("I'm sleeping $i ...")
                     delay(500L)
                 }
+                "Done"
             }
+            println("Result is $result")
         } catch (ex: TimeoutCancellationException) {
             println("job: handing TimeoutCancellationException")
         } finally {
