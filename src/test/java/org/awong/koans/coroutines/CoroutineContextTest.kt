@@ -56,4 +56,17 @@ class CoroutineContextTest {
         context.combiningContextElements()
         assertTrue(true, "Ran coroutines")
     }
+
+    @Test
+    fun testRunActivity() = runBlocking {
+        context.runActivity()
+        assertTrue(true, "Ran coroutines")
+    }
+
+    @Test
+    fun testUseThreadLocalData() = runBlocking {
+        context.useThreadLocalData()
+        assertTrue(true, "Ran coroutines")
+    }
+
 }

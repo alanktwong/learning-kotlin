@@ -124,4 +124,47 @@ class CoroutineContext {
             println("I'm working in thread ${Thread.currentThread().name}")
         }
     }
+
+    fun runActivity() = runBlocking<Unit> {
+        val activity = Activity()
+        log("run test function")
+        activity.doSomething()
+        log("Launched coroutines")
+        delay(500L) // delay for half a second
+        log("Destroying activity! Should cancel all coroutines")
+        activity.destroy()
+        delay(1000) // visually confirm that they don't work
+    }
+
+    val threadLocal = ThreadLocal<String?>() // declare thread-local variable
+
+    fun useThreadLocalData() = runBlocking<Unit> {
+        threadLocal.set("main")
+        log("Pre-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+        val job = launch(Dispatchers.Default + threadLocal.asContextElement(value = "launch")) {
+            log("Launch start, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+            yield()
+            log("After yield, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+        }
+        job.join()
+        log("Post-main, current thread: ${Thread.currentThread()}, thread local value: '${threadLocal.get()}'")
+    }
+}
+
+class Activity {
+    private val mainScope = CoroutineScope(Dispatchers.Default) // use Default for test purposes
+
+    fun destroy() {
+        mainScope.cancel()
+    }
+
+    fun doSomething() {
+        // launch ten coroutines for a demo, each working for a different time
+        repeat(10) { i ->
+            mainScope.launch {
+                delay((i + 1) * 200L) // variable delay 200ms, 400ms, ... etc
+                println("Coroutine $i is done")
+            }
+        }
+    }
 }
