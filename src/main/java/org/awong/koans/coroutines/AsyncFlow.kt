@@ -234,4 +234,36 @@ class AsyncFlow {
         }
         log("Collected in $time ms")
     }
+
+    fun zipFlows() = runBlocking {
+        log("START: zip flows")
+        val nums = (1..3).asFlow() // numbers 1..3
+        val strs = flowOf("one", "two", "three") // strings
+        nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string
+                .collect { log(it) } // collect and print
+    }
+
+    fun zipOnEach() = runBlocking {
+        log("START: zip flows on each")
+
+        val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..3 every 300 ms
+        val strs = flowOf("one", "two", "three").onEach { delay(400) } // strings every 400 ms
+        val startTime = System.currentTimeMillis() // remember the start time
+        nums.zip(strs) { a, b -> "$a -> $b" } // compose a single string with "zip"
+                .collect { value -> // collect and print
+                    println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+    }
+
+    fun combineFlows() = runBlocking {
+        log("START: combine flows")
+
+        val nums = (1..3).asFlow().onEach { delay(300) } // numbers 1..3 every 300 ms
+        val strs = flowOf("one", "two", "three").onEach { delay(400) } // strings every 400 ms
+        val startTime = System.currentTimeMillis() // remember the start time
+        nums.combine(strs) { a, b -> "$a -> $b" } // compose a single string with "combine"
+                .collect { value -> // collect and print
+                    println("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+    }
 }

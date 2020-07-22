@@ -109,4 +109,17 @@ class AsyncFlowTest {
         flow.collectLatest()
         assertTrue(true, "Use a flow that collects latest emissions")
     }
+
+    @Test
+    fun testZipFlow() = runBlocking {
+        flow.zipFlows()
+        assertTrue(true, "Zip 2 flows together")
+
+        flow.zipOnEach()
+        assertTrue(true, "Zip 2 flows together on each")
+
+        flow.combineFlows()
+        assertTrue(true, "Combine 2 flows together")
+    }
+
 }
