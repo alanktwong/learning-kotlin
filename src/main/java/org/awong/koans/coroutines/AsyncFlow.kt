@@ -266,4 +266,107 @@ class AsyncFlow {
                     println("$value at ${System.currentTimeMillis() - startTime} ms from start")
                 }
     }
+
+    fun requestFlow(i: Int): Flow<String> = flow {
+        emit("$i: 1st")
+        delay(500) // wait 500 ms
+        emit("$i: 2nd")
+    }
+
+    fun flatMapConcat() = runBlocking {
+        log("START: flat map concat")
+        val startTime = System.currentTimeMillis() // remember the start time
+        (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+                .flatMapConcat { requestFlow(it) }
+                .collect { value -> // collect and print
+                    log("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+    }
+
+    fun flatMapMerge() = runBlocking {
+        log("START: flat map merge")
+        val startTime = System.currentTimeMillis() // remember the start time
+        (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+                .flatMapMerge { requestFlow(it) }
+                .collect { value -> // collect and print
+                    log("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+    }
+
+    fun flatMapLatest() = runBlocking {
+        log("START: flat map latest")
+        val startTime = System.currentTimeMillis() // remember the start time
+        (1..3).asFlow().onEach { delay(100) } // a number every 100 ms
+                .flatMapLatest { requestFlow(it) }
+                .collect { value -> // collect and print
+                    log("$value at ${System.currentTimeMillis() - startTime} ms from start")
+                }
+    }
+
+    private fun emitAll(): Flow<Int> = flow {
+        for (i in 1..3) {
+            log("Emitting $i")
+            emit(i) // emit next value
+        }
+    }
+
+    fun collectTryCatch() = runBlocking {
+        log("START: collector uses try/cattch")
+        try {
+            emitAll().collect { value ->
+                log(value.toString())
+                check(value <= 1) { "Collected $value" }
+            }
+        } catch (e: Throwable) {
+            log("Caught $e")
+        }
+    }
+
+    private fun tryEmitAll(): Flow<String> = flow {
+        for (i in 1..3) {
+            log("Emitting $i")
+            emit(i) // emit next value
+        }
+    }
+    .map { value ->
+        check(value <= 1) { "Crashed on $value" }
+        "string $value"
+    }
+
+    fun catchEverything() = runBlocking {
+        log("START: collector catches everything")
+        try {
+            tryEmitAll().collect { value -> log(value) }
+        } catch (e: Throwable) {
+            log("Caught $e")
+        }
+    }
+
+    fun catchAndThenEmit() = runBlocking {
+        log("START: emit the text on catching an exception")
+        tryEmitAll()
+                .catch { e -> emit("Caught $e") } // emit on exception
+                .collect { value -> log(value) }
+    }
+
+    fun catchTransparently() = runBlocking {
+        log("START: catch transparently")
+        emitAll()
+                .catch { e -> log("Caught $e") } // does not catch downstream exceptions
+                .collect { value ->
+                    check(value <= 1) { "Collected $value" }
+                    log(value.toString())
+                }
+    }
+
+    fun catchDeclaratively() = runBlocking {
+        log("START: catch declaratively")
+        emitAll()
+                .onEach { value ->
+                    check(value <= 1) { "Collected $value" }
+                    log(value.toString())
+                }
+                .catch { e -> log("Caught $e") }
+                .collect()
+    }
 }

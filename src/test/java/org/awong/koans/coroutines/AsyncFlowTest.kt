@@ -122,4 +122,37 @@ class AsyncFlowTest {
         assertTrue(true, "Combine 2 flows together")
     }
 
+    @Test
+    fun testFlattening() = runBlocking {
+        flow.flatMapConcat()
+        assertTrue(true, "Flat map concat means wait for the inner flow to complete before starting to collect the next one")
+
+        flow.flatMapMerge()
+        assertTrue(true, "Flat map merge means concurrently collect all the incoming flows and merge their values into a single flow so that values are emitted as soon as possible.")
+
+        flow.flatMapLatest()
+        assertTrue(true, "Flat map latest means a collection of the previous flow is cancelled as soon as new flow is emitted.")
+    }
+
+    @Test
+    fun testFlowExceptionHandling() = runBlocking {
+        flow.collectTryCatch()
+        assertTrue(true, "Collector will try/catch")
+
+        flow.catchEverything()
+        assertTrue(true, "Collector will catch everything")
+
+        flow.catchAndThenEmit()
+        assertTrue(true, "emit the text on catching an exception")
+
+        flow.catchDeclaratively()
+        assertTrue(true, "catch transparently")
+    }
+
+
+    @Test(expected = IllegalStateException::class)
+    fun testCatchTransparently() = runBlocking {
+        flow.catchTransparently()
+        assertTrue(true, "catch transparently")
+    }
 }
