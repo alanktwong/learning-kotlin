@@ -11,7 +11,7 @@ plugins {
     idea
     greeter
     groovy
-    kotlin("jvm") version "1.3.61"
+    kotlin("jvm") version "1.3.72"
 }
 
 java {

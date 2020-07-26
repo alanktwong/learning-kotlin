@@ -2,7 +2,7 @@ package org.awong
 
 object Config {
     object Versions {
-        val kotlin = "1.3.71"
+        val kotlin = "1.3.72"
         val coroutines ="1.3.6"
         val datagen = "2.5.1"
         val spek = "2.0.9"
